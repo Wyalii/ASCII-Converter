@@ -43,7 +43,7 @@ func GetImageData(imageFilePath string) {
 	bounds := img.Bounds()
 	width, height := bounds.Max.X, bounds.Max.Y
 	fmt.Printf("Image size: %dx%d\n", width, height)
-	imageToASCII(img, 70)
+	imageToASCII(img, 100)
 }
 
 func imageToASCII(img image.Image, width int) string {

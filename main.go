@@ -62,7 +62,7 @@ func imageToASCII(img image.Image, width int) string {
 			// println("this is img rgb:", r, g, b)
 
 			// Heavy Math For me :)
-			gray := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 256
+			gray := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 300
 			// fmt.Println("gray:", gray)
 			charIndex := int(gray / 256 * float64(len(asciiChars)))
 			if charIndex >= len(asciiChars) {

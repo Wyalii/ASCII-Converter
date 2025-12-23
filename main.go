@@ -1,7 +1,6 @@
-package main
+package asciiconverter
 
 import (
-	"bufio"
 	"fmt"
 	"image"
 	_ "image/jpeg"
@@ -13,20 +12,18 @@ import (
 
 const asciiChars = "@%#*+=-:. "
 
-func main() {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter image path: ")
-	imageFilePath, _ := reader.ReadString('\n')
+func ConvertImageToASCII(imageFilePath string, width int) {
+
 	imageFilePath = strings.TrimSpace(imageFilePath)
 	if filepath.Ext(imageFilePath) == "" {
 		fmt.Println("No File Extenshion Found")
 		return
 	}
-	GetImageData(imageFilePath)
+	GetImageData(imageFilePath, width)
 
 }
 
-func GetImageData(imageFilePath string) {
+func GetImageData(imageFilePath string, widthOfImage int) {
 	file, err := os.Open(imageFilePath)
 	if err != nil {
 		fmt.Println("ERROR Opening file:", err)
@@ -43,7 +40,7 @@ func GetImageData(imageFilePath string) {
 	bounds := img.Bounds()
 	width, height := bounds.Max.X, bounds.Max.Y
 	fmt.Printf("Image size: %dx%d\n", width, height)
-	imageToASCII(img, 100)
+	imageToASCII(img, widthOfImage)
 }
 
 func imageToASCII(img image.Image, width int) string {
@@ -57,13 +54,9 @@ func imageToASCII(img image.Image, width int) string {
 			imgX := x * bounds.Dx() / width
 			imgY := y * bounds.Dy() / height
 			r, g, b, _ := img.At(imgX, imgY).RGBA()
-			// println("this is img X:", imgX)
-			// println("this is img Y:", imgY)
-			// println("this is img rgb:", r, g, b)
 
 			// Heavy Math For me :)
 			gray := (0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)) / 300
-			// fmt.Println("gray:", gray)
 			charIndex := int(gray / 256 * float64(len(asciiChars)))
 			if charIndex >= len(asciiChars) {
 				charIndex = len(asciiChars) - 1
